@@ -2,8 +2,31 @@
 package main
 
 //"fmt"
-
+func GaussianConvertToTriangleView(in [][]float64) [][]float64 {
+	//Прямой ход метода Гаусса
+	//j - ведущий элемент
+	//Копируем, чтобы не менять исходную матрицу
+	input := make([][]float64, len(in))
+	for i := 0; i < len(in); i++ {
+		input[i] = make([]float64, len(in[i]))
+		for j := 0; j < len(in[i]); j++ {
+			input[i][j] = in[i][j]
+		}
+	}
+	for j := 1; j < len(input); j++ {
+		copiedRow := CopyVector(input[j-1])
+		fstElement := input[j-1][j-1]
+		dividedRow := divideVectorRes(copiedRow, fstElement)
+		for i := j; i < len(input); i++ {
+			fstEl := input[i][j-1]
+			substractVector(input[i], multiplyVectorRes(dividedRow, fstEl))
+		}
+	}
+	return input
+}
 func GaussianSingularDivision(in [][]float64) []float64 {
+
+	//PrintMatrix(input)
 	//Прямой ход метода Гаусса
 	//j - ведущий элемент
 	//Копируем, чтобы не менять исходную матрицу
@@ -21,12 +44,10 @@ func GaussianSingularDivision(in [][]float64) []float64 {
 		//Исключение j-ой переменной из остальных уравнений
 		for i := j + 1; i < len(input); i++ {
 			firstRow := CopyVector(input[j])
-			multipleVector(firstRow, input[i][j])
+			multiplyVector(firstRow, input[i][j])
 			substractVector(input[i], firstRow)
 		}
 	}
-	//PrintMatrix(input)
-
 	//Обратный ход
 	x := make([]float64, len(input))
 
@@ -48,4 +69,12 @@ func GaussianSingularDivision(in [][]float64) []float64 {
 	//PrintVector(x)
 	//fmt.Println()
 	return x
+}
+func GaussianDeterminant(in [][]float64) (result float64) {
+	input := GaussianConvertToTriangleView(in)
+	result = 1
+	for i := 0; i < len(input); i++ {
+		result *= input[i][i]
+	}
+	return result
 }

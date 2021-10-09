@@ -40,14 +40,34 @@ func CopyVector(src []float64) []float64 {
 	copy(result, src)
 	return result
 }
-func multipleVector(vec []float64, val float64) {
+func multiplyVector(vec []float64, val float64) {
+
 	for i := 0; i < len(vec); i++ {
 		vec[i] *= val
 	}
 }
+func multiplyVectorRes(vec []float64, val float64) (res []float64) {
+	res = make([]float64, len(vec))
+	for i := 0; i < len(vec); i++ {
+		res[i] = vec[i] * val
+	}
+	return
+}
 func divideVector(vec []float64, val float64) {
 	for i := 0; i < len(vec); i++ {
 		vec[i] /= val
+	}
+}
+func divideVectorRes(vec []float64, val float64) (res []float64) {
+	res = make([]float64, len(vec))
+	for i := 0; i < len(vec); i++ {
+		res[i] = vec[i] / val
+	}
+	return
+}
+func sumVector(vec1 []float64, vec2 []float64) {
+	for i := 0; i < len(vec1); i++ {
+		vec1[i] += vec2[i]
 	}
 }
 func substractVector(vec1 []float64, vec2 []float64) {

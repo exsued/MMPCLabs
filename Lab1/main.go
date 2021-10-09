@@ -22,23 +22,38 @@ func GetDiscrepancyVec(m [][]float64, x []float64) []float64 {
 	return substractVectorRes(B, AX)
 }
 func main() {
-	fmt.Println("Gaussian singular division")
+	fmt.Println("Gaussian singular division:")
+
+	inputMatrix := [][]float64{
+		{4, 2, -3, -3},
+		{5, 3, -5, -8},
+		{4, 1, 5, 22},
+	}
 
 	/*
 		inputMatrix := [][]float64{
-			{4, 2, -3, -3},
-			{5, 3, -5, -8},
-			{4, 1, 5, 22},
+			{18, 12, -43, -32},
+			{15, 23, -75, -98},
+			{74, 61, 55, 22},
 		}
 	*/
-	inputMatrix := [][]float64{
-		{18, 12, -43, -32},
-		{15, 23, -75, -98},
-		{74, 61, 55, 22},
-	}
 	PrintMatrix(inputMatrix)
 	solve := GaussianSingularDivision(inputMatrix)
+	fmt.Println("Solve vector:")
 	PrintVector(solve)
+	fmt.Println()
 	disperancy := GetDiscrepancyVec(inputMatrix, solve)
+	fmt.Println("Disperancy vector:")
 	PrintVector(disperancy)
+	fmt.Println()
+
+	fmt.Println("Determinant calculation:")
+	inputMatrix = [][]float64{
+		{4, 2, -3},
+		{5, 3, -5},
+		{4, 1, 5},
+	}
+	PrintMatrix(inputMatrix)
+	fmt.Println("Determinant:")
+	fmt.Println(GaussianDeterminant(inputMatrix))
 }
