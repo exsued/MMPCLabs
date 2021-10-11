@@ -1,26 +1,8 @@
 // main.go
 package main
 
-import (
-	"fmt"
-)
+import ("fmt")
 
-func GetDiscrepancyVec(m [][]float64, x []float64) []float64 {
-	//Вычисление AX
-	AX := make([]float64, len(x))
-	B := make([]float64, len(m))
-	for i := 0; i < len(m); i++ {
-		B[i] = m[i][len(m[i])-1]
-	}
-	for i := 0; i < len(m); i++ {
-		leftSide := m[i][:len(m[i])-1]
-		for j := 0; j < len(leftSide); j++ {
-			AX[i] += leftSide[j] * x[j]
-		}
-	}
-	//PrintVector(AX)
-	return substractVectorRes(B, AX)
-}
 func main() {
 	fmt.Println("Gaussian singular division:")
 
@@ -29,14 +11,7 @@ func main() {
 		{5, 3, -5, -8},
 		{4, 1, 5, 22},
 	}
-
-	/*
-		inputMatrix := [][]float64{
-			{18, 12, -43, -32},
-			{15, 23, -75, -98},
-			{74, 61, 55, 22},
-		}
-	*/
+	
 	PrintMatrix(inputMatrix)
 	solve := GaussianSingularDivision(inputMatrix)
 	fmt.Println("Solve vector:")
@@ -49,11 +24,20 @@ func main() {
 
 	fmt.Println("Determinant calculation:")
 	inputMatrix = [][]float64{
-		{4, 2, -3},
-		{5, 3, -5},
-		{4, 1, 5},
+		{1, -1, 1},
+		{2, 2, 3},
+		{-2, 4, -1},
 	}
 	PrintMatrix(inputMatrix)
 	fmt.Println("Determinant:")
 	fmt.Println(GaussianDeterminant(inputMatrix))
+	
+	fmt.Println("Inverse matrix:")
+	invM := GaussianInverseMatrix(inputMatrix)
+	PrintMatrix(invM)
+
+	fmt.Println()
+	fmt.Println("Cond m A: ", CondA_M(inputMatrix))
+	fmt.Println("Cond l A: ", CondA_L(inputMatrix))
+	fmt.Println("Cond k A: ", CondA_K(inputMatrix))
 }

@@ -1,29 +1,25 @@
 // LinearEquationSolves
 package main
 
-//"fmt"
-func GaussianConvertToTriangleView(in [][]float64) [][]float64 {
-	//Прямой ход метода Гаусса
-	//j - ведущий элемент
-	//Копируем, чтобы не менять исходную матрицу
-	input := make([][]float64, len(in))
-	for i := 0; i < len(in); i++ {
-		input[i] = make([]float64, len(in[i]))
-		for j := 0; j < len(in[i]); j++ {
-			input[i][j] = in[i][j]
+//import("fmt")
+
+func GetDiscrepancyVec(m [][]float64, x []float64) []float64 {
+	//Вычисление AX
+	AX := make([]float64, len(x))
+	B := make([]float64, len(m))
+	for i := 0; i < len(m); i++ {
+		B[i] = m[i][len(m[i])-1]
+	}
+	for i := 0; i < len(m); i++ {
+		leftSide := m[i][:len(m[i])-1]
+		for j := 0; j < len(leftSide); j++ {
+			AX[i] += leftSide[j] * x[j]
 		}
 	}
-	for j := 1; j < len(input); j++ {
-		copiedRow := CopyVector(input[j-1])
-		fstElement := input[j-1][j-1]
-		dividedRow := divideVectorRes(copiedRow, fstElement)
-		for i := j; i < len(input); i++ {
-			fstEl := input[i][j-1]
-			substractVector(input[i], multiplyVectorRes(dividedRow, fstEl))
-		}
-	}
-	return input
+	//PrintVector(AX)
+	return substractVectorRes(B, AX)
 }
+
 func GaussianSingularDivision(in [][]float64) []float64 {
 
 	//PrintMatrix(input)
@@ -69,12 +65,4 @@ func GaussianSingularDivision(in [][]float64) []float64 {
 	//PrintVector(x)
 	//fmt.Println()
 	return x
-}
-func GaussianDeterminant(in [][]float64) (result float64) {
-	input := GaussianConvertToTriangleView(in)
-	result = 1
-	for i := 0; i < len(input); i++ {
-		result *= input[i][i]
-	}
-	return result
 }
